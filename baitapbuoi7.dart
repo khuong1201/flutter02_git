@@ -28,8 +28,8 @@ QuanLiSinhVien() {
       "diemToan": 8.5,
       "diemLy": 7.0,
       "diemHoa": 9.0,
-      "diemTrungBinh": tinhDTB(8.5, 7.0, 9.0),
-      "xepLoai": xepLoai(8.5, 7.0, 9.0),
+      "diemTrungBinh": TinhDTB(8.5, 7.0, 9.0),
+      "xepLoai": XepLoai(8.5, 7.0, 9.0),
     },
     {
       "id": 2,
@@ -37,8 +37,8 @@ QuanLiSinhVien() {
       "diemToan": 6.0,
       "diemLy": 5.5,
       "diemHoa": 7.0,
-      "diemTrungBinh": tinhDTB(6.0, 5.5, 7.0),
-      "xepLoai": xepLoai(6.0, 5.5, 7.0),
+      "diemTrungBinh": TinhDTB(6.0, 5.5, 7.0),
+      "xepLoai": XepLoai(6.0, 5.5, 7.0),
     },
     {
       "id": 3,
@@ -46,8 +46,8 @@ QuanLiSinhVien() {
       "diemToan": 9.0,
       "diemLy": 8.5,
       "diemHoa": 9.5,
-      "diemTrungBinh": tinhDTB(9.0, 8.5, 9.5),
-      "xepLoai": xepLoai(9.0, 8.5, 9.5),
+      "diemTrungBinh": TinhDTB(9.0, 8.5, 9.5),
+      "xepLoai": XepLoai(9.0, 8.5, 9.5),
     },
     {
       "id": 4,
@@ -55,8 +55,8 @@ QuanLiSinhVien() {
       "diemToan": 7.5,
       "diemLy": 6.5,
       "diemHoa": 8.0,
-      "diemTrungBinh": tinhDTB(7.5, 6.5, 8.0),
-      "xepLoai": xepLoai(7.5, 6.5, 8.0),
+      "diemTrungBinh": TinhDTB(7.5, 6.5, 8.0),
+      "xepLoai": XepLoai(7.5, 6.5, 8.0),
     },
     {
       "id": 5,
@@ -64,8 +64,8 @@ QuanLiSinhVien() {
       "diemToan": 5.0,
       "diemLy": 4.5,
       "diemHoa": 6.0,
-      "diemTrungBinh": tinhDTB(5.0, 4.5, 6.0),
-      "xepLoai": xepLoai(5.0, 4.5, 6.0),
+      "diemTrungBinh": TinhDTB(5.0, 4.5, 6.0),
+      "xepLoai": XepLoai(5.0, 4.5, 6.0),
     },
   ];
   do {
@@ -104,8 +104,8 @@ dynamic ThemSinhVien(int sinhVien) {
     "diemToan": diemToan,
     "diemLy": diemLy,
     "diemHoa": diemHoa,
-    "diemTrungBinh": tinhDTB(diemToan, diemLy, diemHoa),
-    "xepLoai": xepLoai(diemToan, diemLy, diemHoa),
+    "diemTrungBinh": TinhDTB(diemToan, diemLy, diemHoa),
+    "xepLoai": XepLoai(diemToan, diemLy, diemHoa),
   };
 }
 
@@ -114,7 +114,7 @@ dynamic TinhDTB(double diemToan, double diemLy, double diemHoa) {
 }
 
 dynamic XepLoai(double diemToan, double diemLy, double diemHoa) {
-  var dtb = tinhDTB(diemToan, diemLy, diemHoa);
+  var dtb = TinhDTB(diemToan, diemLy, diemHoa);
   if (dtb > 9) {
     return "Xuất sắc";
   } else if (dtb > 7) {
@@ -176,7 +176,7 @@ QuanLiSanPham() {
     chucNang = int.parse(stdin.readLineSync().toString());
     switch (chucNang) {
       case 1:
-        SanPham.add(themSanPham(sanPham.length));
+        sanPham.add(ThemSanPham(sanPham.length));
         break;
       case 2:
         HienThiDanhSachSanPham(sanPham, sanPham.length);
@@ -236,7 +236,7 @@ dynamic TimKiemSanPhamTheoTen(dynamic sanPham, int soLuong) {
   if (danhSachSanPham.isEmpty) {
     print("Không tìm thấy sản phẩm nào");
   } else {
-    hienThiDanhSachSanPham(danhSachSanPham, danhSachSanPham.length);
+    HienThiDanhSachSanPham(danhSachSanPham, danhSachSanPham.length);
   }
 }
 
