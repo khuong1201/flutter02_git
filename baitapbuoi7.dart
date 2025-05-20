@@ -28,8 +28,8 @@ QuanLiSinhVien() {
       "diemToan": 8.5,
       "diemLy": 7.0,
       "diemHoa": 9.0,
-      "diemTrungBinh": TinhDTB(8.5, 7.0, 9.0),
-      "xepLoai": XepLoai(8.5, 7.0, 9.0),
+      "diemTrungBinh": tinhDTB(8.5, 7.0, 9.0),
+      "xepLoai": xepLoai(8.5, 7.0, 9.0),
     },
     {
       "id": 2,
@@ -37,8 +37,8 @@ QuanLiSinhVien() {
       "diemToan": 6.0,
       "diemLy": 5.5,
       "diemHoa": 7.0,
-      "diemTrungBinh": TinhDTB(6.0, 5.5, 7.0),
-      "xepLoai": XepLoai(6.0, 5.5, 7.0),
+      "diemTrungBinh": tinhDTB(6.0, 5.5, 7.0),
+      "xepLoai": xepLoai(6.0, 5.5, 7.0),
     },
     {
       "id": 3,
@@ -46,8 +46,8 @@ QuanLiSinhVien() {
       "diemToan": 9.0,
       "diemLy": 8.5,
       "diemHoa": 9.5,
-      "diemTrungBinh": TinhDTB(9.0, 8.5, 9.5),
-      "xepLoai": XepLoai(9.0, 8.5, 9.5),
+      "diemTrungBinh": tinhDTB(9.0, 8.5, 9.5),
+      "xepLoai": xepLoai(9.0, 8.5, 9.5),
     },
     {
       "id": 4,
@@ -55,8 +55,8 @@ QuanLiSinhVien() {
       "diemToan": 7.5,
       "diemLy": 6.5,
       "diemHoa": 8.0,
-      "diemTrungBinh": TinhDTB(7.5, 6.5, 8.0),
-      "xepLoai": XepLoai(7.5, 6.5, 8.0),
+      "diemTrungBinh": tinhDTB(7.5, 6.5, 8.0),
+      "xepLoai": xepLoai(7.5, 6.5, 8.0),
     },
     {
       "id": 5,
@@ -64,8 +64,8 @@ QuanLiSinhVien() {
       "diemToan": 5.0,
       "diemLy": 4.5,
       "diemHoa": 6.0,
-      "diemTrungBinh": TinhDTB(5.0, 4.5, 6.0),
-      "xepLoai": XepLoai(5.0, 4.5, 6.0),
+      "diemTrungBinh": tinhDTB(5.0, 4.5, 6.0),
+      "xepLoai": xepLoai(5.0, 4.5, 6.0),
     },
   ];
   do {
@@ -79,10 +79,10 @@ QuanLiSinhVien() {
         sinhVien.add(create);
         break;
       case 2:
-        HienThiDanhSachSinhVien(sinhVien, sinhVien.length);
+        hienThiDanhSachSinhVien(sinhVien, sinhVien.length);
         break;
       case 3:
-        SinhVienCoDTBCaoNhat(sinhVien, sinhVien.length);
+        sinhVienCoDTBCaoNhat(sinhVien, sinhVien.length);
       default:
         return;
     }
@@ -104,17 +104,17 @@ dynamic ThemSinhVien(int sinhVien) {
     "diemToan": diemToan,
     "diemLy": diemLy,
     "diemHoa": diemHoa,
-    "diemTrungBinh": TinhDTB(diemToan, diemLy, diemHoa),
-    "xepLoai": XepLoai(diemToan, diemLy, diemHoa),
+    "diemTrungBinh": tinhDTB(diemToan, diemLy, diemHoa),
+    "xepLoai": xepLoai(diemToan, diemLy, diemHoa),
   };
 }
 
-dynamic TinhDTB(double diemToan, double diemLy, double diemHoa) {
+dynamic tinhDTB(double diemToan, double diemLy, double diemHoa) {
   return double.parse(((diemToan + diemLy + diemHoa) / 3).toStringAsFixed(2));
 }
 
-dynamic XepLoai(double diemToan, double diemLy, double diemHoa) {
-  var dtb = TinhDTB(diemToan, diemLy, diemHoa);
+dynamic xepLoai(double diemToan, double diemLy, double diemHoa) {
+  var dtb = tinhDTB(diemToan, diemLy, diemHoa);
   if (dtb > 9) {
     return "Xuất sắc";
   } else if (dtb > 7) {
@@ -126,7 +126,7 @@ dynamic XepLoai(double diemToan, double diemLy, double diemHoa) {
   }
 }
 
-dynamic HienThiDanhSachSinhVien(dynamic sinhVien, int soLuong) {
+dynamic hienThiDanhSachSinhVien(dynamic sinhVien, int soLuong) {
   print("Danh sách sinh viên");
   print("ID\tTên\t\tĐiểm trung bình\t\tXếp loại");
   for (int index = 0; index < soLuong; index++) {
@@ -142,7 +142,7 @@ dynamic HienThiDanhSachSinhVien(dynamic sinhVien, int soLuong) {
   }
 }
 
-dynamic SinhVienCoDTBCaoNhat(dynamic sinhVien, int soLuong) {
+dynamic sinhVienCoDTBCaoNhat(dynamic sinhVien, int soLuong) {
   var maxDiem = sinhVien[0]["diemTrungBinh"];
   var danhSachSinhVien = [sinhVien[0]];
 
@@ -176,16 +176,16 @@ QuanLiSanPham() {
     chucNang = int.parse(stdin.readLineSync().toString());
     switch (chucNang) {
       case 1:
-        sanPham.add(ThemSanPham(sanPham.length));
+        sanPham.add(themSanPham(sanPham.length));
         break;
       case 2:
-        HienThiDanhSachSanPham(sanPham, sanPham.length);
+        hienThiDanhSachSanPham(sanPham, sanPham.length);
         break;
       case 3:
-        TimKiemSanPhamTheoTen(sanPham, sanPham.length);
+        timKiemSanPhamTheoTen(sanPham, sanPham.length);
         break;
       case 4:
-        BanSanPham(sanPham, sanPham.length);
+        banSanPham(sanPham, sanPham.length);
         break;
       default:
         return;
@@ -193,7 +193,7 @@ QuanLiSanPham() {
   } while (chucNang == 1 || chucNang == 2 || chucNang == 3 || chucNang == 4);
 }
 
-dynamic ThemSanPham(int sanPham) {
+dynamic themSanPham(int sanPham) {
   stdout.write("Nhập tên sản phẩm: ");
   var ten = stdin.readLineSync();
   stdout.write("Nhập giá tiền của ${ten}: ");
@@ -208,7 +208,7 @@ dynamic ThemSanPham(int sanPham) {
   };
 }
 
-dynamic HienThiDanhSachSanPham(dynamic sanPham, int soLuong) {
+dynamic hienThiDanhSachSanPham(dynamic sanPham, int soLuong) {
   print("Danh sách san pham");
   print("ID\tTên\t\t\tgiá Tiền\t\tSố lượng trong kho");
   for (int index = 0; index < soLuong; index++) {
@@ -224,7 +224,7 @@ dynamic HienThiDanhSachSanPham(dynamic sanPham, int soLuong) {
   }
 }
 
-dynamic TimKiemSanPhamTheoTen(dynamic sanPham, int soLuong) {
+dynamic timKiemSanPhamTheoTen(dynamic sanPham, int soLuong) {
   stdout.write("Nhập tên sản phẩm cần tìm: ");
   var ten = stdin.readLineSync()?.toLowerCase();
   var danhSachSanPham = [];
@@ -236,11 +236,11 @@ dynamic TimKiemSanPhamTheoTen(dynamic sanPham, int soLuong) {
   if (danhSachSanPham.isEmpty) {
     print("Không tìm thấy sản phẩm nào");
   } else {
-    HienThiDanhSachSanPham(danhSachSanPham, danhSachSanPham.length);
+    hienThiDanhSachSanPham(danhSachSanPham, danhSachSanPham.length);
   }
 }
 
-dynamic BanSanPham(dynamic sanPham, int soLuong) {
+dynamic banSanPham(dynamic sanPham, int soLuong) {
   stdout.write("Nhập tên sản phẩm cần bán: ");
   var ten = stdin.readLineSync()?.toLowerCase();
   stdout.write("Nhập số lượng cần bán: ");
