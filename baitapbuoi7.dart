@@ -7,10 +7,10 @@ void main() {
   var chuongTrinh = int.parse(stdin.readLineSync().toString());
   switch (chuongTrinh) {
     case 1:
-      quanLiSinhVien();
+      QuanLiSinhVien();
       break;
     case 2:
-      quanLiSanPham();
+      QuanLiSanPham();
       break;
     case 3:
       exit(0);
@@ -19,7 +19,7 @@ void main() {
   }
 }
 
-quanLiSinhVien() {
+QuanLiSinhVien() {
   var chucNang;
   dynamic sinhVien = [
     {
@@ -75,11 +75,11 @@ quanLiSinhVien() {
     chucNang = int.parse(stdin.readLineSync().toString());
     switch (chucNang) {
       case 1:
-        var create = themSinhVien(sinhVien.length);
+        var create = ThemSinhVien(sinhVien.length);
         sinhVien.add(create);
         break;
       case 2:
-        hienThiDanhSachSinhVien(sinhVien, sinhVien.length);
+        HienThiDanhSachSinhVien(sinhVien, sinhVien.length);
         break;
       case 3:
         SinhVienCoDTBCaoNhat(sinhVien, sinhVien.length);
@@ -89,7 +89,7 @@ quanLiSinhVien() {
   } while (chucNang == 1 || chucNang == 2 || chucNang == 3);
 }
 
-dynamic themSinhVien(int sinhVien) {
+dynamic ThemSinhVien(int sinhVien) {
   stdout.write("Nhập họ tên sinh viên: ");
   var ten = stdin.readLineSync();
   stdout.write("Nhập Điểm toán của ${ten}: ");
@@ -109,11 +109,11 @@ dynamic themSinhVien(int sinhVien) {
   };
 }
 
-dynamic tinhDTB(double diemToan, double diemLy, double diemHoa) {
+dynamic TinhDTB(double diemToan, double diemLy, double diemHoa) {
   return double.parse(((diemToan + diemLy + diemHoa) / 3).toStringAsFixed(2));
 }
 
-dynamic xepLoai(double diemToan, double diemLy, double diemHoa) {
+dynamic XepLoai(double diemToan, double diemLy, double diemHoa) {
   var dtb = tinhDTB(diemToan, diemLy, diemHoa);
   if (dtb > 9) {
     return "Xuất sắc";
@@ -126,7 +126,7 @@ dynamic xepLoai(double diemToan, double diemLy, double diemHoa) {
   }
 }
 
-dynamic hienThiDanhSachSinhVien(dynamic sinhVien, int soLuong) {
+dynamic HienThiDanhSachSinhVien(dynamic sinhVien, int soLuong) {
   print("Danh sách sinh viên");
   print("ID\tTên\t\tĐiểm trung bình\t\tXếp loại");
   for (int index = 0; index < soLuong; index++) {
@@ -160,7 +160,7 @@ dynamic SinhVienCoDTBCaoNhat(dynamic sinhVien, int soLuong) {
   }
 }
 
-quanLiSanPham() {
+QuanLiSanPham() {
   var chucNang;
   dynamic sanPham = [
     {"id": 1, "ten": "Điện thoại Apple", "giaTien": 15000, "soLuongKho": 10},
@@ -176,16 +176,16 @@ quanLiSanPham() {
     chucNang = int.parse(stdin.readLineSync().toString());
     switch (chucNang) {
       case 1:
-        sanPham.add(themSanPham(sanPham.length));
+        SanPham.add(themSanPham(sanPham.length));
         break;
       case 2:
-        hienThiDanhSachSanPham(sanPham, sanPham.length);
+        HienThiDanhSachSanPham(sanPham, sanPham.length);
         break;
       case 3:
-        timKiemSanPhamTheoTen(sanPham, sanPham.length);
+        TimKiemSanPhamTheoTen(sanPham, sanPham.length);
         break;
       case 4:
-        banSanPham(sanPham, sanPham.length);
+        BanSanPham(sanPham, sanPham.length);
         break;
       default:
         return;
@@ -193,7 +193,7 @@ quanLiSanPham() {
   } while (chucNang == 1 || chucNang == 2 || chucNang == 3 || chucNang == 4);
 }
 
-dynamic themSanPham(int sanPham) {
+dynamic ThemSanPham(int sanPham) {
   stdout.write("Nhập tên sản phẩm: ");
   var ten = stdin.readLineSync();
   stdout.write("Nhập giá tiền của ${ten}: ");
@@ -208,7 +208,7 @@ dynamic themSanPham(int sanPham) {
   };
 }
 
-dynamic hienThiDanhSachSanPham(dynamic sanPham, int soLuong) {
+dynamic HienThiDanhSachSanPham(dynamic sanPham, int soLuong) {
   print("Danh sách san pham");
   print("ID\tTên\t\t\tgiá Tiền\t\tSố lượng trong kho");
   for (int index = 0; index < soLuong; index++) {
@@ -224,7 +224,7 @@ dynamic hienThiDanhSachSanPham(dynamic sanPham, int soLuong) {
   }
 }
 
-dynamic timKiemSanPhamTheoTen(dynamic sanPham, int soLuong) {
+dynamic TimKiemSanPhamTheoTen(dynamic sanPham, int soLuong) {
   stdout.write("Nhập tên sản phẩm cần tìm: ");
   var ten = stdin.readLineSync()?.toLowerCase();
   var danhSachSanPham = [];
@@ -240,7 +240,7 @@ dynamic timKiemSanPhamTheoTen(dynamic sanPham, int soLuong) {
   }
 }
 
-dynamic banSanPham(dynamic sanPham, int soLuong) {
+dynamic BanSanPham(dynamic sanPham, int soLuong) {
   stdout.write("Nhập tên sản phẩm cần bán: ");
   var ten = stdin.readLineSync()?.toLowerCase();
   stdout.write("Nhập số lượng cần bán: ");
