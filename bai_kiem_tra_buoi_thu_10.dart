@@ -60,6 +60,7 @@ class Classroom {
 
   void assignTeacher(Teacher t) => teacher = t;
   void addStudent(Student s) => students.add(s);
+  void removeStudentById(String id) => students.removeWhere((s) => s.id == id);
 
   void displayInfo() {
     print('\nClass: $name (ID: $id)');
@@ -74,13 +75,11 @@ class Classroom {
   }
 }
 
-class SchoolManager {
-  List<Student> students = [];
-  List<Teacher> teachers = [];
-  List<Classroom> classrooms = [];
+class StudentManager {
+  final List<Student> students = [];
 
   void addStudent() {
-    stdout.write('Student ID: ');
+    stdout.write('ID: ');
     String id = stdin.readLineSync()!;
     stdout.write('Name: ');
     String name = stdin.readLineSync()!;
@@ -90,8 +89,7 @@ class SchoolManager {
     String gender = stdin.readLineSync()!;
     stdout.write('Grade: ');
     String grade = stdin.readLineSync()!;
-    var student = Student(id, name, age, gender, grade);
-
+    var s = Student(id, name, age, gender, grade);
     stdout.write('How many subjects? ');
     int n = int.parse(stdin.readLineSync()!);
     for (int i = 0; i < n; i++) {
@@ -99,15 +97,47 @@ class SchoolManager {
       String subject = stdin.readLineSync()!;
       stdout.write('Score: ');
       double score = double.parse(stdin.readLineSync()!);
-      student.updateScore(subject, score);
+      s.updateScore(subject, score);
     }
-
-    students.add(student);
+    students.add(s);
     print('✅ Student added.');
   }
 
+  void updateStudent() {
+    stdout.write('Enter student ID to update: ');
+    String id = stdin.readLineSync()!;
+    try {
+      var s = students.firstWhere((s) => s.id == id);
+      stdout.write('New name: ');
+      s.name = stdin.readLineSync()!;
+      stdout.write('New grade: ');
+      s.grade = stdin.readLineSync()!;
+      print('✅ Student updated.');
+    } catch (e) {
+      print('Student not found.');
+    }
+  }
+
+  void deleteStudent(List<Classroom> classrooms) {
+    stdout.write('Enter student ID to delete: ');
+    String id = stdin.readLineSync()!;
+    students.removeWhere((s) => s.id == id);
+    for (var c in classrooms) {
+      c.removeStudentById(id);
+    }
+    print('✅ Student removed.');
+  }
+
+  void showAllStudents() {
+    for (var s in students) s.displayInfo();
+  }
+}
+
+class TeacherManager {
+  final List<Teacher> teachers = [];
+
   void addTeacher() {
-    stdout.write('Teacher ID: ');
+    stdout.write('ID: ');
     String id = stdin.readLineSync()!;
     stdout.write('Name: ');
     String name = stdin.readLineSync()!;
@@ -123,8 +153,41 @@ class SchoolManager {
     print('✅ Teacher added.');
   }
 
+  void updateTeacher() {
+    stdout.write('Enter teacher ID to update: ');
+    String id = stdin.readLineSync()!;
+    try {
+      var t = teachers.firstWhere((t) => t.id == id);
+      stdout.write('New name: ');
+      t.name = stdin.readLineSync()!;
+      stdout.write('New salary: ');
+      t.salary = double.parse(stdin.readLineSync()!);
+      print('✅ Teacher updated.');
+    } catch (e) {
+      print('Teacher not found.');
+    }
+  }
+
+  void deleteTeacher(List<Classroom> classrooms) {
+    stdout.write('Enter teacher ID to delete: ');
+    String id = stdin.readLineSync()!;
+    teachers.removeWhere((t) => t.id == id);
+    for (var c in classrooms) {
+      if (c.teacher?.id == id) c.teacher = null;
+    }
+    print('✅ Teacher removed.');
+  }
+
+  void showAllTeachers() {
+    for (var t in teachers) t.displayInfo();
+  }
+}
+
+class ClassroomManager {
+  final List<Classroom> classrooms = [];
+
   void addClassroom() {
-    stdout.write('Classroom ID: ');
+    stdout.write('ID: ');
     String id = stdin.readLineSync()!;
     stdout.write('Class name: ');
     String name = stdin.readLineSync()!;
@@ -132,55 +195,66 @@ class SchoolManager {
     print('✅ Classroom added.');
   }
 
-  void assignStudentToClass() {
+  void updateClassroom() {
+    stdout.write('Enter classroom ID to update: ');
+    String id = stdin.readLineSync()!;
+    try {
+      var c = classrooms.firstWhere((c) => c.id == id);
+      stdout.write('New name: ');
+      c.name = stdin.readLineSync()!;
+      print('✅ Classroom updated.');
+    } catch (e) {
+      print('Classroom not found.');
+    }
+  }
+
+  void deleteClassroom() {
+    stdout.write('Enter classroom ID to delete: ');
+    String id = stdin.readLineSync()!;
+    classrooms.removeWhere((c) => c.id == id);
+    print('✅ Classroom removed.');
+  }
+
+  void assignStudentToClass(List<Student> students) {
     stdout.write('Student ID: ');
     String sid = stdin.readLineSync()!;
     stdout.write('Classroom ID: ');
     String cid = stdin.readLineSync()!;
     try {
-      var s = students.firstWhere((e) => e.id == sid);
-      var c = classrooms.firstWhere((e) => e.id == cid);
+      var s = students.firstWhere((s) => s.id == sid);
+      var c = classrooms.firstWhere((c) => c.id == cid);
       c.addStudent(s);
       print('✅ Student assigned to class.');
     } catch (e) {
-      print('❌ Not found.');
+      print('❌ Student or classroom not found.');
     }
   }
 
-  void assignTeacherToClass() {
+  void assignTeacherToClass(List<Teacher> teachers) {
     stdout.write('Teacher ID: ');
     String tid = stdin.readLineSync()!;
     stdout.write('Classroom ID: ');
     String cid = stdin.readLineSync()!;
     try {
-      var t = teachers.firstWhere((e) => e.id == tid);
-      var c = classrooms.firstWhere((e) => e.id == cid);
+      var t = teachers.firstWhere((t) => t.id == tid);
+      var c = classrooms.firstWhere((c) => c.id == cid);
       c.assignTeacher(t);
       print('✅ Teacher assigned to class.');
     } catch (e) {
-      print('❌ Not found.');
+      print('❌ Teacher or classroom not found.');
     }
   }
 
-  void showAllStudents() {
-    if (students.isEmpty) print('No students.');
-    for (var s in students) s.displayInfo();
-  }
-
-  void showAllTeachers() {
-    if (teachers.isEmpty) print('No teachers.');
-    for (var t in teachers) t.displayInfo();
-  }
-
   void showAllClassrooms() {
-    if (classrooms.isEmpty) print('No classrooms.');
     for (var c in classrooms) c.displayInfo();
   }
 
   void showClassReport() {
-    Map<String, List<Student>> grouped = {};
-    for (var s in students) {
-      grouped.putIfAbsent(s.grade, () => []).add(s);
+    var grouped = <String, List<Student>>{};
+    for (var c in classrooms) {
+      for (var s in c.students) {
+        grouped.putIfAbsent(s.grade, () => []).add(s);
+      }
     }
     grouped.forEach((grade, group) {
       print('\nClass $grade Report:');
@@ -195,88 +269,108 @@ class SchoolManager {
   }
 }
 
+class SchoolManager {
+  final studentManager = StudentManager();
+  final teacherManager = TeacherManager();
+  final classroomManager = ClassroomManager();
+}
+
+class SchoolManagerApp {
+  final SchoolManager manager = SchoolManager();
+
+  void run() {
+    while (true) {
+      print('\n=== SCHOOL MANAGEMENT MENU ===');
+      print('1. Manage Students');
+      print('2. Manage Teachers');
+      print('3. Manage Classrooms');
+      print('0. Exit');
+      stdout.write('Select: ');
+      final choice = stdin.readLineSync();
+
+      switch (choice) {
+        case '1': studentMenu(); break;
+        case '2': teacherMenu(); break;
+        case '3': classroomMenu(); break;
+        case '0': print('👋 Goodbye!'); return;
+        default: print('Invalid option.');
+      }
+    }
+  }
+
+  void studentMenu() {
+    while (true) {
+      print('\n--- STUDENT MANAGEMENT ---');
+      print('1. Add Student');
+      print('2. Update Student');
+      print('3. Delete Student');
+      print('4. Show All Students');
+      print('0. Back');
+      stdout.write('Select: ');
+      final choice = stdin.readLineSync();
+
+      switch (choice) {
+        case '1': manager.studentManager.addStudent(); break;
+        case '2': manager.studentManager.updateStudent(); break;
+        case '3': manager.studentManager.deleteStudent(manager.classroomManager.classrooms); break;
+        case '4': manager.studentManager.showAllStudents(); break;
+        case '0': return;
+        default: print('Invalid option.');
+      }
+    }
+  }
+
+  void teacherMenu() {
+    while (true) {
+      print('\n--- TEACHER MANAGEMENT ---');
+      print('1. Add Teacher');
+      print('2. Update Teacher');
+      print('3. Delete Teacher');
+      print('4. Show All Teachers');
+      print('0. Back');
+      stdout.write('Select: ');
+      final choice = stdin.readLineSync();
+
+      switch (choice) {
+        case '1': manager.teacherManager.addTeacher(); break;
+        case '2': manager.teacherManager.updateTeacher(); break;
+        case '3': manager.teacherManager.deleteTeacher(manager.classroomManager.classrooms); break;
+        case '4': manager.teacherManager.showAllTeachers(); break;
+        case '0': return;
+        default: print('Invalid option.');
+      }
+    }
+  }
+
+  void classroomMenu() {
+    while (true) {
+      print('\n--- CLASSROOM MANAGEMENT ---');
+      print('1. Add Classroom');
+      print('2. Update Classroom');
+      print('3. Delete Classroom');
+      print('4. Assign Student to Class');
+      print('5. Assign Teacher to Class');
+      print('6. Show All Classrooms');
+      print('7. Show Class Report');
+      print('0. Back');
+      stdout.write('Select: ');
+      final choice = stdin.readLineSync();
+
+      switch (choice) {
+        case '1': manager.classroomManager.addClassroom(); break;
+        case '2': manager.classroomManager.updateClassroom(); break;
+        case '3': manager.classroomManager.deleteClassroom(); break;
+        case '4': manager.classroomManager.assignStudentToClass(manager.studentManager.students); break;
+        case '5': manager.classroomManager.assignTeacherToClass(manager.teacherManager.teachers); break;
+        case '6': manager.classroomManager.showAllClassrooms(); break;
+        case '7': manager.classroomManager.showClassReport(); break;
+        case '0': return;
+        default: print('Invalid option.');
+      }
+    }
+  }
+}
+
 void main() {
-  var students = [
-    Student('S1', 'Alice', 16, 'Female', '10A')
-      ..updateScore('Math', 8.5)
-      ..updateScore('English', 7.5),
-    Student('S2', 'Bob', 15, 'Male', '10A')
-      ..updateScore('Math', 6.0)
-      ..updateScore('English', 8.0),
-    Student('S3', 'Charlie', 17, 'Male', '11B')
-      ..updateScore('Math', 9.0)
-      ..updateScore('English', 8.5)
-  ];
-
-  var teachers = [
-    Teacher('T1', 'Ms. Smith', 30, 'Female', 'Math', 5000),
-    Teacher('T2', 'Mr. Brown', 45, 'Male', 'English', 5200)
-  ];
-
-  var classroomA = Classroom('C1', '10A');
-  classroomA.assignTeacher(teachers[0]);
-  classroomA.addStudent(students[0]);
-  classroomA.addStudent(students[1]);
-
-  var classroomB = Classroom('C2', '11B');
-  classroomB.assignTeacher(teachers[1]);
-  classroomB.addStudent(students[2]);
-
-  // Display all
-  for (var teacher in teachers) {
-    teacher.displayInfo();
-  }
-
-  for (var student in students) {
-    student.displayInfo();
-  }
-
-  classroomA.displayInfo();
-  classroomB.displayInfo();
-
-  // Class report
-  var classGroups = <String, List<Student>>{};
-  for (var student in students) {
-    classGroups.putIfAbsent(student.grade, () => []).add(student);
-  }
-  classGroups.forEach((grade, group) {
-    print('\nReport for class $grade:');
-    double total = 0;
-    for (var s in group) {
-      double avg = s.averageScore;
-      total += avg;
-      print('- ${s.name}: Avg = ${avg.toStringAsFixed(2)}');
-    }
-    print('>> Class $grade average: ${(total / group.length).toStringAsFixed(2)}');
-  });
-
-  final manager = SchoolManager();
-  while (true) {
-    print('\n=== SCHOOL MENU ===');
-    print('1. Add student');
-    print('2. Add teacher');
-    print('3. Add classroom');
-    print('4. Assign student to class');
-    print('5. Assign teacher to class');
-    print('6. Show all students');
-    print('7. Show all teachers');
-    print('8. Show all classrooms');
-    print('9. Show class report');
-    print('0. Exit');
-    stdout.write('Select: ');
-    final input = stdin.readLineSync();
-    switch (input) {
-      case '1': manager.addStudent(); break;
-      case '2': manager.addTeacher(); break;
-      case '3': manager.addClassroom(); break;
-      case '4': manager.assignStudentToClass(); break;
-      case '5': manager.assignTeacherToClass(); break;
-      case '6': manager.showAllStudents(); break;
-      case '7': manager.showAllTeachers(); break;
-      case '8': manager.showAllClassrooms(); break;
-      case '9': manager.showClassReport(); break;
-      case '0': print('Exiting...'); return;
-      default: print('Invalid choice.');
-    }
-  }
+  SchoolManagerApp().run();
 }
